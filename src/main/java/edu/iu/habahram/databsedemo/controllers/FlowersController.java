@@ -50,8 +50,7 @@ public class FlowersController {
     }
 
     @PostMapping("/{id}/image")
-    public boolean updateImage(@PathVariable int id,
-                               @RequestParam MultipartFile file) {
+    public boolean updateImage(@PathVariable int id, @RequestParam MultipartFile file) {
         try {
             return flowersFileRepository.updateImage(id, file);
         } catch (IOException e) {

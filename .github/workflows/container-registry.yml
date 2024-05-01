@@ -1,11 +1,9 @@
-name: Run the tests, build the image
+name: Run
 
 on:
   push:
-   branches:
-     - master
-     - with_testcontainer
-  workflow_dispatch:
+    branches:
+      - master
 
 jobs:
   build_and_publish:
@@ -37,7 +35,6 @@ jobs:
 
       - name: Build and push the image
         run: |
-          docker login --username hbahramian --password ${{secrets.ACCESS_TOKEN}} ghcr.io
-          docker build -t ghcr.io/hbahramian/database-demo:latest --file Dockerfile .  
-          docker push ghcr.io/hbahramian/database-demo:latest 
-
+          docker login --username cjlenzo --password ${{secrets.ACCESS_TOKEN}} ghcr.io
+          docker build -t ghcr.io/cjlenzo/final-database:latest --file Dockerfile .  
+          docker push ghcr.io/cjlenzo/final-database:latest

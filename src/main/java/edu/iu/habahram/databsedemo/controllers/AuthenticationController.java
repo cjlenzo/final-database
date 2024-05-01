@@ -1,6 +1,5 @@
 package edu.iu.habahram.databsedemo.controllers;
 
-
 import edu.iu.habahram.databsedemo.model.Customer;
 import edu.iu.habahram.databsedemo.repository.CustomerRepository;
 import edu.iu.habahram.databsedemo.security.TokenService;
@@ -16,15 +15,13 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     CustomerRepository customerRepository;
-    public AuthenticationController(AuthenticationManager
-                                            authenticationManager,
-                                    TokenService tokenService,
-                                    CustomerRepository
-                                            customerRepository) {
+
+    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService, CustomerRepository customerRepository) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.customerRepository = customerRepository;
     }
+
     @PostMapping("/signup")
     public void signup(@RequestBody Customer customer) {
         try {
@@ -39,12 +36,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String login(@RequestBody Customer customer) {
-        Authentication authentication = authenticationManager
-                .authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                customer.getUsername()
-                                , customer.getPassword()));
-
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(customer.getUsername(), customer.getPassword()));
         return tokenService.generateToken(authentication);
     }
 }

@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FlowersRepository
-        extends CrudRepository<Flower, Integer> {
+public interface FlowersRepository extends CrudRepository<Flower, Integer> {
 }

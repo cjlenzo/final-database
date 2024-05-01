@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepository
-        extends CrudRepository<Order, Integer>
-, QueryByExampleExecutor<Order> {
+public interface OrderRepository extends CrudRepository<Order, Integer>, QueryByExampleExecutor<Order> {
     List<Order> findAllByCustomerUserName(String customerUserName);
 }

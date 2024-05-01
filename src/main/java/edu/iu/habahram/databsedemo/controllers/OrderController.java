@@ -25,8 +25,8 @@ public class OrderController {
 
     @PostMapping
     public int add(@RequestBody Order order) {
-        String username = getTheCurrentLoggedInCustomer();
-        order.setCustomerUserName(username);
+//        String username = getTheCurrentLoggedInCustomer();
+//        order.setCustomerUserName(username);
         return orderService.add(order);
     }
 
@@ -61,6 +61,15 @@ public class OrderController {
             order.setCustomerUserName(username);
         }
         List<Order> orders = orderService.search(order);
+        return ResponseEntity.status(HttpStatus.OK).body(orders);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<List<Order>> findById(@PathVariable String username) {
+        if(username.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        List<Order> orders = orderService.findAllByCustomer(username);
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 

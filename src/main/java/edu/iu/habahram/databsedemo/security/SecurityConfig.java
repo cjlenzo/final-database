@@ -34,26 +34,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authManager(
-            UserDetailsService userDetailsService) {
+    public AuthenticationManager authManager(UserDetailsService userDetailsService) {
         var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
         return new ProviderManager(authProvider);
     }
 
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(x -> x.disable())
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers(
-                                HttpMethod.POST,"/signup", "/login").permitAll()
-                        .requestMatchers(
-                                HttpMethod.GET,"/", "/flowers/{id}/image").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/signup", "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/", "/flowers/{id}/image").permitAll()
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session ->
@@ -67,13 +62,14 @@ public class SecurityConfig {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
+
     @Bean
     JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwks) {
         return new NimbusJwtEncoder(jwks);
     }
+
     @Bean
     JwtDecoder jwtDecoder() throws JOSEException {
         return NimbusJwtDecoder.withPublicKey(rsaKey.toRSAPublicKey()).build();
     }
-
 }
