@@ -16,32 +16,30 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 class OrderServiceTest {
 
-    @Autowired
     OrderService orderService;
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
             "postgres:15-alpine"
     );
 
-    @DynamicPropertySource
+
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @BeforeAll
+
     static void setUp() {
         postgres.start();
     }
 
-    @AfterAll
+
     static void tearDown() {
         postgres.stop();
     }
 
-    @Test
-    @org.junit.jupiter.api.Order(1)
+
     void add() {
         Order order = new Order();
         order.setFlowerId(2);
@@ -51,8 +49,7 @@ class OrderServiceTest {
         orderService.add(order);
     }
 
-    @Test
-    @org.junit.jupiter.api.Order(3)
+
     void findAllByCustomer() {
         List<Order> orders = orderService.findAllByCustomer("John");
         Assert.assertEquals(orders.size(), 1);
@@ -60,8 +57,7 @@ class OrderServiceTest {
         Assert.assertEquals(2, orders.get(0).getFlowerId().intValue());
     }
 
-    @Test
-    @org.junit.jupiter.api.Order(2)
+
     void searchByFlowerId() {
         Order order = new Order();
         order.setFlowerId(2);
