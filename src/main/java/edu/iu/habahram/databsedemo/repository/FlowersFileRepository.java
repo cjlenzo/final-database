@@ -11,6 +11,15 @@ import java.nio.file.Paths;
 @Repository
 public class FlowersFileRepository {
     private String IMAGES_FOLDER_PATH = "flowers/images/";
+
+    public FlowersFileRepository() {
+        try {
+            Files.createDirectories(Paths.get(IMAGES_FOLDER_PATH));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public byte[] getImage(int id) throws IOException {
         String fileExtension = ".jpeg";
         Path path = Paths.get(IMAGES_FOLDER_PATH
